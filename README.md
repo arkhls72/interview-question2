@@ -7,7 +7,7 @@
 *  get()  			:  Return ID of array from memory. if not exists then query database , throws exception if not found in DB 
 *  getPermutation() :  Return a random order of an array by ID from memory, if not found then query database, it will throw exception if not found in database
 *  removeMemory()   :  Clear memory.
-* getFromMemory()   : Return ID only from memory
+*  getFromMemory()   : Return ID only from memory
  
  
 ### Controller detail
@@ -53,7 +53,7 @@ DemoArray is an entity model mapping table TBL_DEMO_ARRAY
 ### Converter 
 MapperService converts DTO to entity and vice versa 
 
-### In-Memory Cache configuration (CaceheConfig )
+### In-Memory Cache configuration (CacheConfig )
  * Includes in-memory spring boot cache  
  
  
