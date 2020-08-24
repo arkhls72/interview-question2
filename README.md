@@ -12,14 +12,14 @@
  
 ### Controller detail
  
-* Calling end point POST `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` save array to database and memory
+* Calling end point POST `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` save an array to database and memory
 * Calling end point GET `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` returns an ID of the array from memory or database, throws exception if not found. 
 * Calling end point GET `http://localhost:5000/permutation?id=2` returns a random permutation of the array from memory or database, throws exception if not found. 
-* Calling end point GET `http://localhost:5000/memroy?numbers=2,1,3,4,6,5,7`` returns ID from memory or database, throws exception if not found.
+* Calling end point GET `http://localhost:5000/memroy?numbers=2,1,3,4,6,5,7`` returns an ID from memory or database, throws exception if not found.
 * Calling end point DELETE `http://localhost:5000/clear/memory` clears the memory.
 
 
-###  Services ( 1 service: DemoServoce )  
+###  Services ( 1 service: DemoService )  
 	 
 Supports controller's request 
 
