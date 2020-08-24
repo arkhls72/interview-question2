@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,41 +29,70 @@ public class DemoArrayController {
 		this.demoService = demoService;
 	}
 
-	/**
-     * {@code POST  /store} : Create a new DemoArrayDTO.numbers.
-     * @param ehcClientDTO the ehcClientDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new DemoArrayDTO containing numbers and id, 
-     *           or with status {@code 400 (sever error)} if array numbers has already an ID or the passing DTO has an empty array numbers
-     * @throws ResponseStatusException 
+
+    /**
+     * {@code POST  /store} : Create a new demoArray object which contains array of integer
+     * @param demoArrayDTO  to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body of the new demoArrayDTO, 
+     *  or with status {@code 400 (Bad Request)} if the demoArrayDTO has already an ID.
+     * @throws ResponseStatusException if not created
      */
+	
 	@PostMapping("/store")
-	public ResponseEntity<DemoArrayDTO> save(@RequestBody DemoArrayDTO demoArray) throws ResponseStatusException {
+	public ResponseEntity<DemoArrayDTO> save(@RequestBody DemoArrayDTO demoArrayDTO) throws ResponseStatusException {
 		
-		if (ArrayUtils.isEmpty(demoArray.getNumbers())) {
+		if (ArrayUtils.isEmpty(demoArrayDTO.getNumbers())) {
 			 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "reuqest array is empty.");
 		}
 		
-		return new ResponseEntity<DemoArrayDTO>(demoService.save(demoArray), new HttpHeaders(), HttpStatus.CREATED);
+		return new ResponseEntity<DemoArrayDTO>(demoService.saveArray(demoArrayDTO), new HttpHeaders(), HttpStatus.CREATED);
 	}
+	
+
+    /**
+     * {@code GET  /store} :get a DemoArrayDTO which contains the ID of array numbers either in memory or database
+     * @param numbers, array of  elements
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} with id of Array that found, or {@code 404 (not found)} 
+     * 
+     */
 	
 	@GetMapping("/store")
 	public ResponseEntity<DemoArrayDTO> get(@RequestParam Integer[] numbers) throws ResponseStatusException {
-		DemoArrayDTO response = demoService.getId(numbers);
+		DemoArrayDTO response = demoService.getArrayId(numbers);
 		return new ResponseEntity<DemoArrayDTO>(response, new HttpHeaders(), HttpStatus.OK);
 	}	
 	
+    /**
+     * {@code GET  /store/memory} : get the array with random order of elements 
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} , or {@code 404 (not found)} 
+   
+     */
+	
 	@GetMapping("/permutation")
-	public ResponseEntity<DemoArrayDTO> getPermutation(@NotNull @RequestParam Integer id) throws ResponseStatusException {
+	public ResponseEntity<DemoArrayDTO> getPermutation(@RequestParam Integer id) throws ResponseStatusException {
 		
-		DemoArrayDTO response = demoService.getSuffeled(id);
-		
-		if (response == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Array not found.");
-		}
-		
+		DemoArrayDTO response = demoService.getShuffled(id);		
 		return new ResponseEntity<DemoArrayDTO>(response, new HttpHeaders(), HttpStatus.OK);
 	}		
 	
+    /**
+     * {@code GET  /store/memory} : get the ID of numbers if found in memory
+     * @param numbers, array of  elements
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} with id of Array that found, or {@code 404 (not found)} 
+   
+     */
+
+	@GetMapping("/memory")
+	public ResponseEntity<DemoArrayDTO> getFromMemory(@RequestParam Integer[] numbers) throws ResponseStatusException {
+		DemoArrayDTO response = demoService.getIdFromMemory(numbers);
+		return new ResponseEntity<DemoArrayDTO>(response, new HttpHeaders(), HttpStatus.OK);
+	}	
+
+    /**
+     * {@code DELETE  /clear} 
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and message notification
+   
+     */
 	@DeleteMapping("/clear/memory")
 	public ResponseEntity<DemoCacheDTO> removeMemory() throws ResponseStatusException {
 		DemoCacheDTO response = demoService.clearCache();

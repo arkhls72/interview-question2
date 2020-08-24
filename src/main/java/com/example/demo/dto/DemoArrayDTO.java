@@ -9,6 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * DTO data transfer object that is matching DemoArrayEntity
+ */
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 @EqualsAndHashCode 
@@ -30,12 +34,9 @@ public class DemoArrayDTO implements Serializable{
 		this.numbers = numbers;
 	
 	}
-
-	public DemoArrayDTO(Integer id, Integer[] numbers) {
-		super();
+	public DemoArrayDTO(Integer id,Integer[] numbers) {
 		this.id = id;
 		this.numbers = numbers;
+	
 	}
-	
-	
 }

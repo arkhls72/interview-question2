@@ -13,7 +13,7 @@ import com.example.demo.dto.DemoArrayDTO;
 import com.example.demo.dto.DemoCacheDTO;
 
 /**
- * Spring boot in-memory cache implementation
+ * Spring boot in memory cache implementation
  */
 @Component
 public class DemoCacheManager {
@@ -50,7 +50,7 @@ public class DemoCacheManager {
 	}
 
 	/**
-	 * Add numbers to cache
+	 * Add array numbers to cache
 	 * @param numbers
 	 * @return
 	 */
