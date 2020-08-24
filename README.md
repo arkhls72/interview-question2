@@ -1,51 +1,45 @@
-Interview question
-==================
+
+### Part one ( 1 controller: DemoArrayController)
+
+*  save() 			:  Insert array of integer to memory - The order elements of an array ignored when added to memory   
+*  get()  			:  Return ID of  array in memory
+*  getgetPermutation()  			:  Return a random order of an array by ID 
+*  removeMemory()   :  Clear memory. 
+ 
+### Controller detail
+ 
+* Calling end point POST `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` save array to memory
+* Calling end point GET `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` returns an ID of the array 
+* Calling end point GET `http://localhost:5000/permutation?id=2` returns a random permutation of the array
+* Calling end point DELETE `http://localhost:5000/clear/memory` clears the memory.
 
 
-This is a very basic spring-boot app. Run it (using `mvn spring-boot:run`) or your favorite IDE.
-Try the url `http://localhost:5000/greeting?name=David`, it should return the string: "Hello David".
+###  Services ( 1 service: DemoServoce )  
+	 
+Supports controller's request 
 
-# Requirements
-### Part one - Basic local service
-We would like to create 2 APIs, 
-* one to store an array of numbers, 
-* one that returns a random permutation of that array.
+* save(DemoArrayDTO source): add array to memory and return the object back in DTO format DemoArray
+* getId(DemoArrayDTO source):   get  ID of an array in DTO format DemoArray if not found throws Exception 
+* getArray(DemoArrayDTO source): get ID and array  in DTO format
+* getSuffeled(Integer[] numbers):  change the order of array's element inside array randomly
+* clearCache(): remove all available element inside casche
 
-Storage should be in memory without using any database.
+###  Manager ( 1 Manger: DemoCacheManager )
+Manages In-Memory cache inquiries
+* getDemoCache() : return object cache numberMap
+* clearAll(): removes all elements of the cache
+* getByKey(): returns array by cache key     
+* add(): add new array to cache
+* getCacheKey: create a unique hash code key. order of elements are ignored. same content but 2 different order are identical 
 
-### Acceptance criteria
-* Sending `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` should 
-return an ID of the array (e.g., 1)
-* Sending `http://localhost:5000/permutation?id=1` should return 
-a random permutation of the array (e.g., `2,3,6,7,1,3,5`)
+ 
+### Data transfer object DTO DemoArrayDTO and DemoCacheDTO) 
+* DemoArrayDTO : matching DemoArray entity  
+* DemoCacheDTO : cache response object when has been cleared.
 
 
-### Part two - Adding persistence layer
-We would like to have persistence of the data in case the server drops.
-`application.yml` is configured for H2 database, but feel free to use any other relational DB you are comfortable with to save the data.
-Make sure that your app will work with H2 as well as it will be tested with H2 (integartion-tests can help here).
-
-#### Acceptance criteria
-* Sending `http://localhost:5000/store?numbers=2,1,3,4,6,5,7` should 
-return an ID of the array (e.g., 1)
-* Sending `http://localhost:5000/permutation?id=1` should return 
-a random permutation of the array (e.g., `2,3,6,7,1,3,5`)
-Restarting the spring-boot app and Sending `http://localhost:5000/permutation?id=1` 
-should give back a random permutation of the array (e.g., `2,3,6,7,1,3,5`)
-
-## Guidelines
-* Fork this repository and push your commits
-* Use the spring-boot template given
-* Write unit-tests, integration-tests 
-  * Write in javadocs what scenarios are in test
-  * Higher coverage is better
-* Write code documentation
-* All classes given are meant to used as reference - once they are not needed, they can be removed.
-* This project uses [lombok](https://projectlombok.org/) - use it when possible
-* Properly organize your project with `.gitignore` file, `readme` file explaining how to run the project, etc.
-* Do all 2 parts, and use git tags to mark the commit fulfilling part 1 and part 2.
-
-## Deliverables
-* Send us a link to a repository fulfilling the requirements with two tags to check part 1 and 2.
-* Your code will be tested using different tests.
-* Successful implementation will move to interview.
+### In-Memory Cache configuration (CaceheConfig )
+ * Includes in-memory spring boot cache  
+ 
+ 
+  
